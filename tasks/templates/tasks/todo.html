@@ -8,7 +8,7 @@
 {% block content %}
   {% for task in tasks %}
     <article class="post row align-items-center">
-      <form action="" method="post" class="m-4 col text-right">
+      <form action="{% url 'tasks:dismiss' task.id %}" method="post" class="m-4 col text-right">
         {% csrf_token %}
         {% if not task.completed %}
           <button class="btn btn-secondary"><i class=' fa fa-solid fa-check' style='color: white'></i></button>

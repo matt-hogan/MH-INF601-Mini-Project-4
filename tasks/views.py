@@ -40,6 +40,10 @@ def update_task(request, task_id):
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
-def get_task(id):
-    """ Returns a single task from the database """
-    return Task.objects.get(id=id)
+def dismiss_task(request, task_id):
+    """ Changes a task's status to complete or incomplete """
+    task = get_object_or_404(Task, pk=task_id)
+    Task.objects.filter(id=task_id).update(
+        completed=not task.completed
+    )
+    return HttpResponseRedirect(request.META["HTTP_REFERER"])
