@@ -47,3 +47,9 @@ def dismiss_task(request, task_id):
         completed=not task.completed
     )
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
+
+def delete_task(request, task_id):
+    """  """
+    task = get_object_or_404(Task, pk=task_id)
+    task.delete()
+    return HttpResponseRedirect(request.META["HTTP_REFERER"])

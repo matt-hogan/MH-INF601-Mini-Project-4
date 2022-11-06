@@ -9,5 +9,5 @@ urlpatterns = [
     path("create/", views.create_task, name="create"),
     path("<int:task_id>/update/", views.update_task, name="update"),
     path("<int:task_id>/dismiss/", views.dismiss_task, name="dismiss"),
-    # path("<int:pk>/delete/", , name="delete"),
+    path("<int:task_id>/delete/", views.delete_task, name="delete"),
 ]

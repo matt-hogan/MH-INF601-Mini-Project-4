@@ -70,7 +70,7 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <form method="post" action="">
+                <form method="post" action="{% url 'tasks:delete' task.id %}">
                   {% csrf_token %}
                   <div class="modal-footer">
                     <input type="submit" class="btn btn-primary" value="Confirm">
