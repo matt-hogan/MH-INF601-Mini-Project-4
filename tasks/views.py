@@ -1,5 +1,6 @@
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 from django.views import generic
 
 from .models import Task
@@ -18,6 +19,16 @@ class CompleteTasksView(generic.ListView):
 
     def get_queryset(self):
         return Task.objects.filter(completed=True).values()
+
+
+def create_task(request):
+    """ Add task to databse with provided form values and redirect to the incomplete tasks page """
+    Task.objects.create(
+        title=request.POST["title"],
+        description=request.POST["description"],
+        completed=False
+    )
+    return HttpResponseRedirect(reverse('tasks:index'))
 
 
 def get_task(id):
