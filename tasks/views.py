@@ -31,6 +31,15 @@ def create_task(request):
     return HttpResponseRedirect(reverse('tasks:index'))
 
 
+def update_task(request, task_id):
+    """ Updates a tasks title and description in the database """
+    Task.objects.filter(id=task_id).update(
+        title=request.POST["title"],
+        description=request.POST["description"],
+    )
+    return HttpResponseRedirect(request.META["HTTP_REFERER"])
+
+
 def get_task(id):
     """ Returns a single task from the database """
     return Task.objects.get(id=id)
