@@ -3,9 +3,9 @@ from .models import Task
 
 
 class TaskAdmin(admin.ModelAdmin):
-    fields = [ 'title', 'description', 'done' ]
-    list_display = ( 'title', 'description', 'done' )
-    list_filter = [ 'done' ]
+    fields = [ 'title', 'description', 'completed' ]
+    list_display = ( 'title', 'description', 'completed' )
+    list_filter = [ 'completed' ]
     search_fields = [ 'title' ]
     ordering = [ 'title' ]
 

@@ -5,7 +5,7 @@ from django.views import generic
 from .models import Task
 
 class TasksView(generic.ListView):
-    template_name = 'tasks/index.html'
+    template_name = "tasks/incomplete.html"
     context_object_name = "tasks"
 
     def get_queryset(self):

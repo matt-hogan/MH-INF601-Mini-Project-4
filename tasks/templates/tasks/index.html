@@ -2,14 +2,9 @@
 
 {% block title %}To-Do List{% endblock %}
 
-{% block content %}
-    {% if tasks %}
-        <ul>
-            {% for task in tasks %}
-            <li>{{ task.title }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No tasks are available.</p>
-    {% endif %}
+{% block header %}
+  <div>
+    <h1 class="my-5">Welcome</h1>
+    <h4>Create an account or log in to begin</h4>
+  </div>
 {% endblock %}
