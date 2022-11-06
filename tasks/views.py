@@ -49,7 +49,7 @@ def dismiss_task(request, task_id):
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 def delete_task(request, task_id):
-    """  """
+    """ Deletes a task from the database """
     task = get_object_or_404(Task, pk=task_id)
     task.delete()
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
