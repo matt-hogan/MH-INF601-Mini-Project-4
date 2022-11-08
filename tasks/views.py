@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views import generic
 
@@ -13,8 +13,9 @@ class IncompleteTasksView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         # TODO: Display welcome page if not logged in
-        # TODO: Only get current users tasks
-        return Task.objects.filter(completed=False).values()
+        if self.request.user.is_superuser:
+            return Task.objects.filter(completed=False).values()
+        return Task.objects.filter(completed=False, user=self.request.user).values()
 
 
 class CompleteTasksView(LoginRequiredMixin, generic.ListView):
@@ -22,8 +23,9 @@ class CompleteTasksView(LoginRequiredMixin, generic.ListView):
     context_object_name = "tasks"
 
     def get_queryset(self):
-        # TODO: Only get current users tasks
-        return Task.objects.filter(completed=True).values()
+        if self.request.user.is_superuser:
+            return Task.objects.filter(completed=False).values()
+        return Task.objects.filter(completed=False, user=self.request.user).values()
 
 
 @login_required
@@ -32,7 +34,8 @@ def create_task(request):
     Task.objects.create(
         title=request.POST["title"],
         description=request.POST["description"],
-        completed=False
+        completed=False,
+        user=request.user
     )
     return HttpResponseRedirect(reverse('tasks:index'))
 
