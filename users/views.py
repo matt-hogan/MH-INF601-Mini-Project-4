@@ -6,7 +6,7 @@ from django.urls import reverse
 
 
 def signin(request):
-    """  """
+    """ Displays the login form and signs a user in """
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
@@ -22,7 +22,7 @@ def signin(request):
     return render(request, "users/login.html")
 
 def register(request):
-    """  """
+    """ Displays a registration form. Creates a user and signs them in """
     if request.method == "POST":
         # Creates a group if needed and adds the user to the group with permissions to edit tasks
         group, created = Group.objects.get_or_create(name="standard_user")

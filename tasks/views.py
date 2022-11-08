@@ -1,31 +1,32 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 
 from .models import Task
 
-class IncompleteTasksView(LoginRequiredMixin, generic.ListView):
-    template_name = "tasks/incomplete.html"
-    context_object_name = "tasks"
 
-    def get_queryset(self):
-        # TODO: Display welcome page if not logged in
-        if self.request.user.is_superuser:
-            return Task.objects.filter(completed=False).values()
-        return Task.objects.filter(completed=False, user=self.request.user).values()
+def incomplete_tasks(request):
+    """ Displays a users incomplete tasks if logged else otherwise displays the welcome page """
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            tasks = Task.objects.filter(completed=False).values()
+        else:
+            tasks = Task.objects.filter(completed=False, user=request.user).values()
+        return render(request, "tasks/incomplete.html", {"tasks": tasks})
+    return render(request, "tasks/welcome.html")
 
 
-class CompleteTasksView(LoginRequiredMixin, generic.ListView):
-    template_name = "tasks/complete.html"
-    context_object_name = "tasks"
-
-    def get_queryset(self):
-        if self.request.user.is_superuser:
-            return Task.objects.filter(completed=False).values()
-        return Task.objects.filter(completed=False, user=self.request.user).values()
+@login_required
+def complete_tasks(request):
+    """ Displays completed tasks to the curretn logged in user """
+    if request.user.is_superuser:
+        tasks = Task.objects.filter(completed=True).values()
+    else:
+        tasks = Task.objects.filter(completed=True, user=request.user).values()
+    return render(request, "tasks/complete.html", {"tasks": tasks})
 
 
 @login_required
